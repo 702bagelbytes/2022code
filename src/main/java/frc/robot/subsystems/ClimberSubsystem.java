@@ -30,7 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void setRight(double val) {
-        set(right, val);
+        set(right, -val);
     }
 
     public Encoder getLeftEncoder() {

@@ -211,20 +211,20 @@ def startSwitchedCamera(config):
 # 80 = more false positives like faces, 120 = doesn't recognize far away cargo
 MIN_SAT = 80
 # 70 or 100 
-MIN_VAL = 70
+MIN_VAL = 100
 
 
 def hue_range(hsvImg, minHue, maxHue):
     return cv2.inRange(hsvImg, (minHue, MIN_SAT, MIN_VAL), (maxHue, 255, 255))
 
+def mask_yellow(hsvImg):
+    return hue_range(hsvImg, 17, 35)
 
 def mask_blue(hsvImg):
     return hue_range(hsvImg, 95, 120)
 
-
 def mask_red(hsvImg):
     return cv2.bitwise_or(hue_range(hsvImg, 0, 10), hue_range(hsvImg, 165, 180))
-
 
 def find_balls(masked):
     # open to remove noise (erode, then dilate)
@@ -254,32 +254,14 @@ def find_balls(masked):
         balls.append((x, y, radius))
     return balls
 
-def proc_img(frame, is_red_alliance):
+def proc_img(frame):
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
-    balls = find_balls(mask_red(hsv) if is_red_alliance else mask_blue(hsv))
+    balls = find_balls(mask_yellow(hsv))
     if balls:
         return max(balls, key=lambda b: b[2])
 
 def main(ntinst):
-    sd = ntinst.getTable("SmartDashboard")
-    alliance = ntinst.getTable("Alliance")
-
-    alliance.putBoolean("isRedAlliance", False)
-    is_red_alliance = False
-
-    def on_value_changed(table, k, v, is_new):
-        nonlocal is_red_alliance
-        if k == "isRedAlliance":
-            print("Alliance has changed!")
-            is_red_alliance = v
-
-    alliance.addEntryListener(
-        on_value_changed,
-        NetworkTablesInstance.NotifyFlags.IMMEDIATE |
-        NetworkTablesInstance.NotifyFlags.NEW |
-        NetworkTablesInstance.NotifyFlags.UPDATE)
-
     cam = cameras[0]
     config = json.loads(cam.getConfigJson())
     width = config["width"]
@@ -300,8 +282,7 @@ def main(ntinst):
         fps = 1 / dt
         #sd.putNumber("FPS", fps)
 
-        sd.putString("Alliance", "Red" if is_red_alliance else "Blue")
-        b = proc_img(img, is_red_alliance)
+        b = proc_img(img)
         if b:
             x, y, r = b
             # make values in range -1 to 1

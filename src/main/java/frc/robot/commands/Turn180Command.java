@@ -55,6 +55,6 @@ public class Turn180Command extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         driveSubsystem.setTurnAuto(0);
-        System.out.println("Turn180Command " + (interrupted ? "timed out" : "suceeded"));
+        System.out.println("Turn180Command " + (interrupted ? "timed out" : "succeeded"));
     }
 }

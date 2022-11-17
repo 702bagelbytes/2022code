@@ -9,7 +9,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class BallTurnCmd extends CommandBase {
     private final DriveSubsystem driveSubsystem;
     private final PIDController drivePID, turnPID;
-    private  double lastSeenTimestamp = -1;
+    private double lastSeenTimestamp = -1;
 
     public BallTurnCmd(DriveSubsystem driveSubsystem) {
         this.driveSubsystem = driveSubsystem;

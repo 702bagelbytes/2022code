@@ -14,10 +14,10 @@ package frc.robot;
  */
 public final class Constants {
     public class DriveConstants {
-        public static final int TALON_FL_ID = 5;
-        public static final int TALON_FR_ID = 16;
+        public static final int TALON_FL_ID = 23;
+        public static final int TALON_FR_ID = 30;
         public static final int TALON_BL_ID = 27;
-        public static final int TALON_BR_ID = 30;
+        public static final int TALON_BR_ID = 5;
         public static final double DRIVE_SPEED = 1.0;
     }
     public class TurnConstants {
@@ -32,14 +32,14 @@ public final class Constants {
         public static final int CODRIVER_PORT = 1;
     }
     public class ArmConstants {
-        public static final int ARM_LEFT_TALON = 23;
+        public static final int ARM_LEFT_TALON = 28;
         public static final int ARM_RIGHT_SPARK = 3;
         public static final double ARM_POWER = 0.50;
         public static final double LOW_MULTIPLER = 0.4;
         public static final int ARM_COUNTS_PER_REV = 2048;
     }
     public class IntakeConstants {
-        public static final int INNER_TALON_ID = 28;
+        public static final int INNER_TALON_ID = 16;
         public static final int OUTER_TALON_ID = 2;
         public static final double INNER_POWER = -1.0; 
         public static final double OUTER_POWER = 1.0;
